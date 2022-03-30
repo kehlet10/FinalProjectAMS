@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Core",
+    "\\Core\\Inc",
+    "\\Core\\Src",
+    "\\Drivers",
+    "\\Drivers\\STM32WBxx_HAL_Driver",
+    "\\Drivers\\STM32WBxx_HAL_Driver\\Inc\\Legacy"
+  ],
+  "SelectedNode": "\\Core\\Src\\RFID.cpp",
+  "PreviewInSolutionExplorer": false
+}
