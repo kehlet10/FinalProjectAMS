@@ -31,8 +31,6 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "RFID.h"
-#include "sdCard.h"
 #include "breathAnalyser.h"
 #include "webPage.h"
 /* USER CODE END Includes */

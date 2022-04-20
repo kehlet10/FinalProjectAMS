@@ -7,17 +7,14 @@
 
 #include <breathAnalyser.h>
 
-namespace FinalProject {
 
-breathAnalyser::breathAnalyser() {
-	// TODO Auto-generated constructor stub
 
-}
 
-int getPromille()
+float getPromille()
 {
 	return promille;
 }
+
 void measurePromille()
 {
 	//get measurement from sensor + recalculate sensoroutput to promille
