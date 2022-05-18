@@ -1,9 +1,9 @@
 /*
  * CFile1.c
  *
- * Created: 04-05-2022 21:12:00
- *  Author: Danie
- */ 
+ * Created: 04-05-2022 20:55:46
+ * Authors : Jonathan Bering & Daniel Damsgaard Kehlet
+ */
 
 
 

@@ -1,9 +1,8 @@
 /*
- * TFTtest.c
- * Test program for the TFTdriver
-
- * Created: 15-02-2018 
- * Author : Henning Hargaard
+ * main.c
+ * 
+ * Created: 04-05-2022 20:55:46
+ * Authors : Jonathan Bering & Daniel Damsgaard Kehlet
  */ 
 
 #include <avr/io.h>
@@ -11,25 +10,24 @@
 #include <util/delay.h>
 #include "TFTdriver.h"
 #include "BreathAnalyzer.h"
+#include "UART.h"
 
-void setup()
-{
-	Serial.begin(9600);
-}
 
 int main(void)
 {
-	setup();
-  breathAnalyzerInit();
-  // Initialize the display
-  DisplayInit();
-  // All pixels white (background)
-  //FillRectangle(0,0,320,240,31,63,31);
-  //// Draw red parts of danish flag
-  //FillRectangle(0,140,100,100,31,0,0);
-  //FillRectangle(0,0,100,100,31,0,0);
-  //FillRectangle(140,0,320-140,100,31,0,0);
-  //FillRectangle(140,140,320-140,100,31,0,0);      
+
+	InitUART(UART0, 9600, 8);
+	
+	breathAnalyzerInit();
+	// Initialize the display
+	DisplayInit();
+	// All pixels white (background)
+	//FillRectangle(0,0,320,240,31,63,31);
+	//// Draw red parts of danish flag
+	//FillRectangle(0,140,100,100,31,0,0);
+	//FillRectangle(0,0,100,100,31,0,0);
+	//FillRectangle(140,0,320-140,100,31,0,0);
+	//FillRectangle(140,140,320-140,100,31,0,0);
  
   while(1)
   {
