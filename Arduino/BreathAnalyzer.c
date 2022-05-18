@@ -5,8 +5,6 @@
  * Authors : Jonathan Bering & Daniel Damsgaard Kehlet
  */
 
-
-
 #include "BreathAnalyzer.h"
 
 float sensorValue;
@@ -29,9 +27,7 @@ void ADC_Init()
 }
 
 void breathAnalyzerInit()
-{
-
-	
+{	
 	ADC_Init();
 }
 

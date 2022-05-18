@@ -43,15 +43,15 @@
     </com_atmel_avrdbg_tool_simulator>
     <AsfFrameworkConfig>
       <framework-data xmlns="">
-  <options />
-  <configurations />
-  <files />
-  <documentation help="" />
-  <offline-documentation help="" />
-  <dependencies>
-    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.49.1" />
-  </dependencies>
-</framework-data>
+        <options />
+        <configurations />
+        <files />
+        <documentation help="" />
+        <offline-documentation help="" />
+        <dependencies>
+          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.49.1" />
+        </dependencies>
+      </framework-data>
     </AsfFrameworkConfig>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
@@ -154,16 +154,43 @@
     <Compile Include="BreathAnalyzer.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="diskio.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="diskio.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ff.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ff.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ffconf.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ffsystem.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ffunicode.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SDdriver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SDdriver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SPIdriver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SPIdriver.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="UART.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="UART.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="lcd162.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="lcd162.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="TFTdriver.c">

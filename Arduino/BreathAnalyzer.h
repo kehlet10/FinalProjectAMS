@@ -20,6 +20,9 @@ void breathAnalyzerInit();
 void checkR0Value();
 void BacLevel();
 
+struct Breathalyzer {
+	float _BAC;
+	};
 
 
 
