@@ -24,37 +24,39 @@ unsigned char SD_init()
 		
 	for(i = 0; i < 10; i++)
 	{
-		SPI_transmit(0xff); //80 clock pulses before sending the first command (Only needs 76, but we just do 80 to be sure)
+		SPI_transmit(0xFF); // Wait a little over 76 Clock Pulses before sending a command for the first time.
 	}
 	
 	SPI_Chip_Select();
-	do
-	{
-		response = SD_sendCommand(GO_IDLE_STATE, 0); //send 'reset & go idle' command (= CMD0)
+	do {
 		retry++;
-		if(retry > 0x20)
-			return 1; //time out, card not detected
-	} while(response != 0x01); //repeat until SD is in IDLE state
+		response = SD_sendCommand(GO_IDLE_STATE, 0); // Send command "Reset & Go Idle" (= CMD0)
+		
+		if(retry > 0x20) {	
+			return 1; // No card has been detected. Timeout!
+		}
+		
+	} while(response != 0x01); // Repeat the above until SD is in IDLE state
 
 	SPI_Chip_Deselect();
-	SPI_transmit (0xff);
-	SPI_transmit (0xff);
+	SPI_transmit (0xFF);
+	SPI_transmit (0xFF);
 
 	retry = 0;
 	
-	SD_version = 2; //default set to SD compliance with ver2.x;
-					//this may change after checking the next command
+	SD_version = 2; // This is by default set to SD compliance with ver2.x;
+					// Might change after checking the next command
 	do
 	{
-		response = SD_sendCommand(SEND_IF_COND, 0x000001AA); //Check power supply status, mandatory for SDHC card (= CMD8)
+		response = SD_sendCommand(SEND_IF_COND, 0x000001AA); // Check power supply status, mandatory for SDHC card (= CMD8)
 		retry++;
 		if(retry > 0xfe)
 		{
 			SD_version = 1;
 			cardType = 1;
 			break;
-		} //time out
-	} while(response != 0x01);
+		} // Timeout
+	} while(response != 0x01); // Repeat the above until satisfying the statement
 	
 	retry = 0;
 	do

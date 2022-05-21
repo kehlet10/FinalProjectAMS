@@ -39,10 +39,15 @@ BYTE pdrv				/* Physical drive nmuber to identify the drive */
 	unsigned char result;
 
 	result = SD_init();
-	if (result)
-	return RES_ERROR;
+	
+	if (result) 
+	{
+		return RES_ERROR;	
+	} 
 	else
-	return RES_OK;
+	{
+		return RES_OK;	
+	}
 }
 
 /*-----------------------------------------------------------------------*/
@@ -58,12 +63,14 @@ UINT count		/* Number of sectors to read */
 	unsigned char result;
 
 	//		result = MMC_disk_read(buff, sector, count);
-	for (unsigned long i = 0; i<count; i++)
+	for (unsigned long i = 0; i < count; i++)
 	{
 		result = SD_readSingleBlock(sector+i, buff);
 		buff += 512;
-		if (result != 0)
-		return RES_ERROR;
+		
+		if (result != 0){
+			return RES_ERROR;	
+		}		
 	}
 	return RES_OK;
 }
@@ -86,9 +93,12 @@ UINT count			/* Number of sectors to write */
 	{
 		result = SD_writeSingleBlock(sector+i, buff);
 		buff += 512;
-		if (result != 0)
-		return RES_ERROR;
+		
+		if (result != 0) {
+			return RES_ERROR;
+		}
 	}
+	
 	return RES_OK;
 }
 #endif
