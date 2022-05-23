@@ -17,12 +17,7 @@
 void ADC_Init();
 void breathalyzerInit();
 void checkR0Value();
-//void BacLevel(Breathalyzer BA_Inst);
 float BacLevel();
 
-/*typedef struct Breathalyzer{
-	float _BAC;
-} gasSensor;
-*/
 
 #endif /* BREATHALYZER_H_ */

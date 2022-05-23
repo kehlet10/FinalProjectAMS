@@ -27,10 +27,12 @@ FIL Fil;			/* File object needed for each open file */
 
 int main(void)
 {
+	DDRB = 0; // Set Digital Pin 13 to input (Actually Pin 8-13 are all inputs now)
+	PORTB = 0;
+	
 	// FOR DEBUGGING;
 	char debugMsg[50];
 	char debugString[20];
-	
 	
 	InitUART(UART0, 9600, 8,'A');
 	SendString(UART0, "UART Initialized\r\n");
@@ -71,46 +73,52 @@ int main(void)
 		}
 	}
  
-  while(1)
+  while(1) // Check if Pin 13 (= 7th Pin in PINB) is set
   {
-	//checkR0Value();														// Jsed first time the MQ-3 Sensor started up to get R0 value
-	//BacLevel(&BA_Inst);													// Get the current BAC Level
-    BAC = BacLevel();
-	/*DisplayOn();
-	_delay_ms(1000);
-    DisplayOff();
-	_delay_ms(1000);*/
-	_delay_ms(500);
 	
-	// === FOR DEBUGGING === //
-	memset(debugMsg,'0', strlen(debugMsg));
-	memset(debugString,'0', strlen(debugString));
+	if((PINB & 0b10000000) != 0){ // Check if Pin 13 (= 7th Pin in PINB) is set
+		SendString(UART0, "PINB7 Button Pressed\r\n");
+		SendString(UART0, "BLOW INTO THE SENSOR!!!!");
+	  
+		//checkR0Value();														// Jsed first time the MQ-3 Sensor started up to get R0 value
+		//BacLevel(&BA_Inst);													// Get the current BAC Level
+	    BAC = BacLevel();
+		/*DisplayOn();
+		_delay_ms(1000);
+		DisplayOff();
+		_delay_ms(1000);*/
+		_delay_ms(500);
 	
-	dtostrf(BAC, 3, 3, debugString);
-	sprintf(debugMsg, "BAC Level is %6s\r\n", debugString);
-	SendString(UART0, debugMsg);
-	// ===================== //
+		// === FOR DEBUGGING === //
+		memset(debugMsg,'0', strlen(debugMsg));
+		memset(debugString,'0', strlen(debugString));
 	
-	fr = f_open(&Fil, "Datalog.txt", FA_WRITE | FA_OPEN_APPEND);			// Open the existing Datalog file
-	if (fr == FR_OK)
-	{
-		char stringBAC[10];													// String used to store value of converted float
-		char msg[50];														// String to store Datalogging msg.
-		int btw;															// Size of string msg.
-		
-		//dtostrf(BA_Inst._BAC, 3, 3, stringBAC);							// Convert float to string
-		dtostrf(BAC, 3, 3, stringBAC);
-		btw = sprintf(msg, "Your BAC Level is %6s %%\n", stringBAC);
-		
-		f_write(&Fil, msg, btw, &bw);										// Writes the msg onto the SD Card
-		
-		fr = f_close(&Fil);													// Closes the opened file
-		
-		if (fr == FR_OK && bw == btw)										// If it was successful, send a UART message.
+		dtostrf(BAC, 3, 3, debugString);
+		sprintf(debugMsg, "BAC Level is %6s\r\n", debugString);
+		SendString(UART0, debugMsg);
+		// ===================== //
+	
+		fr = f_open(&Fil, "Datalog.txt", FA_WRITE | FA_OPEN_APPEND);			// Open the existing Datalog file
+		if (fr == FR_OK)
 		{
-			SendString(UART0, msg);
-		}
+			char stringBAC[10];													// String used to store value of converted float
+			char msg[50];														// String to store Datalogging msg.
+			int btw;															// Size of string msg.
 		
+			//dtostrf(BA_Inst._BAC, 3, 3, stringBAC);							// Convert float to string
+			dtostrf(BAC, 3, 3, stringBAC);
+			btw = sprintf(msg, "Your BAC Level is %6s %%\n", stringBAC);
+		
+			f_write(&Fil, msg, btw, &bw);										// Writes the msg onto the SD Card
+		
+			fr = f_close(&Fil);													// Closes the opened file
+		
+			if (fr == FR_OK && bw == btw)										// If it was successful, send a UART message.
+			{
+				SendString(UART0, msg);
+			}
+		
+		}
 	}
   } 
 }
