@@ -18,6 +18,14 @@
 
   Henning Hargaard, February 15, 2018
 ************************************************************/  
+
+//Variables
+// Number Font
+
+#ifndef TFT_DRIVER_H
+#define TFT_DRIVER_H
+
+//Methods
 void DisplayInit();
 void DisplayOff();
 void DisplayOn();
@@ -28,8 +36,12 @@ void WritePixel(unsigned char Red, unsigned char Blue, unsigned char Green);
 void SetColumnAddress(unsigned int Start, unsigned int End);
 void SetPageAddress(unsigned int Start, unsigned int End);
 void MemoryWrite();
-void FillRectangle(unsigned int StartX, unsigned int StartY, unsigned int Width, 
-                   unsigned int Height, unsigned char Red, unsigned char Green, unsigned char Blue);
+void setDisplayNumberFont(unsigned int X_Position, unsigned int Y_Position);
+unsigned int ClearScreen(unsigned char colour);
+unsigned int setpixelColour(unsigned int Colour);
 
+void WriteNumber(unsigned int X_pos, unsigned int Y_pos, unsigned int Colour, int NumberToWrite);
+void WriteLetter(unsigned int X_pos, unsigned int Y_pos, unsigned int Colour, char LetterToWrite);
+void WriteNumberFromADC(unsigned int X_Position,unsigned int Y_Position, unsigned int Colour, float num);
 
-
+#endif

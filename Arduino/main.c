@@ -21,6 +21,21 @@
 #include "TFTdriver.h"
 #include "diskio.h"
 
+const unsigned char Black = 0;
+const unsigned char Red = 2;
+const unsigned char Orange = 3;
+const unsigned char Yellow = 4;
+const unsigned char Green = 5;
+const unsigned char Blue = 6;
+const unsigned char Violet = 7;
+const unsigned char Gray = 8;
+const unsigned char White = 9;
+const unsigned char Magenta = 10;
+const unsigned char Lime = 11;
+const unsigned char Baby_Powder = 12;
+const unsigned char Cyan = 13;
+const unsigned char Lavenderblush = 14;
+const unsigned char Beige = 15;
 
 FATFS FatFs;		/* FatFs work area needed for each volume */
 FIL Fil;			/* File object needed for each open file */
@@ -45,14 +60,7 @@ int main(void)
 	// Initialize the display
 	DisplayInit();
 	SendString(UART0, "TFT Display Initialized\r\n");
-	
-	// All pixels white (background)
-	//FillRectangle(0,0,320,240,31,63,31);
-	//// Draw red parts of danish flag
-	//FillRectangle(0,140,100,100,31,0,0);
-	//FillRectangle(0,0,100,100,31,0,0);
-	//FillRectangle(140,0,320-140,100,31,0,0);
-	//FillRectangle(140,140,320-140,100,31,0,0);
+	ClearScreen(Black);
 	
 	// Setup of SD card
 	UINT bw;
@@ -72,14 +80,16 @@ int main(void)
 			SendString(UART0,"Datalog.txt er oprettet!\r\n");
 		}
 	}
- 
+	float x = 1;
   while(1) // Check if Pin 13 (= 7th Pin in PINB) is set
   {
 	
 	if((PINB & 0b10000000) != 0){ // Check if Pin 13 (= 7th Pin in PINB) is set
+		
+		
+
 		SendString(UART0, "PINB7 Button Pressed\r\n");
 		SendString(UART0, "BLOW INTO THE SENSOR!!!!");
-	  
 		//checkR0Value();														// Jsed first time the MQ-3 Sensor started up to get R0 value
 		//BacLevel(&BA_Inst);													// Get the current BAC Level
 	    BAC = BacLevel();
@@ -108,7 +118,7 @@ int main(void)
 			//dtostrf(BA_Inst._BAC, 3, 3, stringBAC);							// Convert float to string
 			dtostrf(BAC, 3, 3, stringBAC);
 			btw = sprintf(msg, "Your BAC Level is %6s %%\n", stringBAC);
-		
+			WriteNumberFromADC(100, 140, White, BAC);
 			f_write(&Fil, msg, btw, &bw);										// Writes the msg onto the SD Card
 		
 			fr = f_close(&Fil);													// Closes the opened file
