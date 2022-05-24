@@ -60,8 +60,8 @@ int main(void)
 	// Initialize the display
 	DisplayInit();
 	SendString(UART0, "TFT Display Initialized\r\n");
-	ClearScreen(Black);
-	
+	ClearScreen(White);
+	WriteLetter(100,100, Black, 'A');
 	// Setup of SD card
 	UINT bw;
 	FRESULT fr;
@@ -118,7 +118,7 @@ int main(void)
 			//dtostrf(BA_Inst._BAC, 3, 3, stringBAC);							// Convert float to string
 			dtostrf(BAC, 3, 3, stringBAC);
 			btw = sprintf(msg, "Your BAC Level is %6s %%\n", stringBAC);
-			WriteNumberFromADC(100, 140, White, BAC);
+			WriteNumberFromADC(60, 100, Magenta, BAC);
 			f_write(&Fil, msg, btw, &bw);										// Writes the msg onto the SD Card
 		
 			fr = f_close(&Fil);													// Closes the opened file

@@ -19,6 +19,10 @@
   Henning Hargaard, February 15, 2018
 ************************************************************/  
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 //Variables
 // Number Font
 
@@ -37,9 +41,15 @@ void SetColumnAddress(unsigned int Start, unsigned int End);
 void SetPageAddress(unsigned int Start, unsigned int End);
 void MemoryWrite();
 void setDisplayNumberFont(unsigned int X_Position, unsigned int Y_Position);
+void setDisplayLetterFont(unsigned int X_Position, unsigned int Y_Position);
+void setDisplayDotFont(unsigned int X_Position, unsigned int Y_Position);
+void setDisplayHeaderFont(unsigned X_Position, unsigned int Y_Position);
 unsigned int ClearScreen(unsigned char colour);
 unsigned int setpixelColour(unsigned int Colour);
+unsigned int LetterToAscii(char Letter);
 
+void WriteHeader(unsigned int X_pos, unsigned int Y_pos, unsigned int Colour);
+void WriteDot(unsigned int X_pos, unsigned int Y_pos, unsigned int Colour);
 void WriteNumber(unsigned int X_pos, unsigned int Y_pos, unsigned int Colour, int NumberToWrite);
 void WriteLetter(unsigned int X_pos, unsigned int Y_pos, unsigned int Colour, char LetterToWrite);
 void WriteNumberFromADC(unsigned int X_Position,unsigned int Y_Position, unsigned int Colour, float num);
