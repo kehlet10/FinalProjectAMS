@@ -56,29 +56,19 @@ float BacLevel(){
 	sensor_volt = (float)sensorValue/adcResolution*voltageRef; //Voltage range = 3.3V da det er fra vores controller board, Resolution = 1023
 	
 	// === FOR DEBUGGING === //
-	char debugMsg[50];
+	/*char debugMsg[50];
 	char debugString[20];
 	
 	dtostrf(sensor_volt, 3, 3, debugString);
 	sprintf(debugMsg, "Sensor Volt is %6s\r\n", debugString);
-	SendString(UART0, debugMsg);
+	SendString(UART0, debugMsg);*/
 	// ===================== //
 	
 	rs_gas = ((5.0*R2)/sensor_volt) - R2; //5V da det er på sensor boardet
 	ratio = rs_gas/R0;
 	double x = 0.4*ratio;
 	BAC = pow(x,-1.431); // g/ml
+	BAC *= 10; // g/L
 
 	return BAC;
 }
-
-/*void BacLevel(Breathalyzer BA_Inst)
-{
-	//sensorValue = ADC level
-	sensor_volt = (float)sensorValue/adcResolution*voltageRef; //Voltage range = 3.3V da det er fra vores controller board, Resolution = 4095
-	rs_gas = ((5.0*R2)/sensor_volt) - R2; //5V da det er på sensor boardet
-	ratio = rs_gas/R0;
-	double x = 0.4*ratio;
-	BAC = pow(x,-1.431); // g/ml
-	BA_Inst._BAC = BAC;
-}*/
