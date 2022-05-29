@@ -15,6 +15,7 @@
 //return	: unsigned char; will be 0 if no error,
 // 			  otherwise the response byte will be sent
 //******************************************************************
+///-SD_init_start
 unsigned char SD_init()
 {
 	unsigned char i, response, SD_version;
@@ -96,6 +97,7 @@ unsigned char SD_init()
 	
 	return 0; //successful return
 }
+///-SD_init_end
 
 //******************************************************************
 //Function	: To send a command to SD card
@@ -103,6 +105,7 @@ unsigned char SD_init()
 // 			  & unsigned long (32-bit command argument)
 //return	: unsigned char; response byte
 //******************************************************************
+///-SD_sendCommand_start
 unsigned char SD_sendCommand(unsigned char cmd, unsigned long arg)
 {
 	unsigned char response, retry = 0, status;
@@ -155,7 +158,7 @@ unsigned char SD_sendCommand(unsigned char cmd, unsigned long arg)
 		SPI_receive(); 
 	}
 
-    // This is added by Henning Hargaard 6/3 2020 (Response = 1b => busy while reading 0)
+    // (Response = 1b => busy while reading 0)
 	if (cmd == ERASE_SELECTED_BLOCKS)
 	{
 		while (SPI_receive() == 0)
@@ -166,6 +169,7 @@ unsigned char SD_sendCommand(unsigned char cmd, unsigned long arg)
 	SPI_Chip_Deselect();
 	return response; //return state
 }
+///-SD_sendCommand_end
 
 //*****************************************************************
 //Function	: To erase specified no. of blocks of SD card
@@ -173,6 +177,7 @@ unsigned char SD_sendCommand(unsigned char cmd, unsigned long arg)
 //return	: unsigned char; will be 0 if no error,
 // 			  otherwise the response byte will be sent
 //*****************************************************************
+///-SD_erase_start
 unsigned char SD_erase (unsigned long startBlock, unsigned long totalBlocks)
 {
 	unsigned char response;
@@ -191,6 +196,7 @@ unsigned char SD_erase (unsigned long startBlock, unsigned long totalBlocks)
 
 	return 0; //normal return
 }
+///-SD_erase_end
 
 //******************************************************************
 //Function	: To read a single block from SD card
@@ -198,6 +204,7 @@ unsigned char SD_erase (unsigned long startBlock, unsigned long totalBlocks)
 //return	: unsigned char; will be 0 if no error,
 // 			  otherwise the response byte will be sent
 //******************************************************************
+///-SD_readSingleBlock_start
 unsigned char SD_readSingleBlock(unsigned long startBlock, unsigned char* ptr)
 {
 	unsigned char response;
@@ -234,6 +241,7 @@ unsigned char SD_readSingleBlock(unsigned long startBlock, unsigned char* ptr)
 
 	return 0;
 }
+///-SD_readSingleBlock_end
 
 //******************************************************************
 //Function	: To write to a single block of SD card
@@ -241,6 +249,7 @@ unsigned char SD_readSingleBlock(unsigned long startBlock, unsigned char* ptr)
 //return	: unsigned char; will be 0 if no error,
 // 			  otherwise the response byte will be sent
 //******************************************************************
+///-SD_writeSingleBlock_start
 unsigned char SD_writeSingleBlock(unsigned long startBlock, unsigned char* ptr)
 {
 	unsigned char response;
@@ -295,3 +304,4 @@ unsigned char SD_writeSingleBlock(unsigned long startBlock, unsigned char* ptr)
 	SPI_Chip_Deselect();
 	return 0;
 }
+///-SD_writeSingleBlock_end

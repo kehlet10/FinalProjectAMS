@@ -1,5 +1,5 @@
 /*
- * CFile1.c
+ * UART.c
  *
  * Created: 04-05-2022 20:55:46
  * Authors : Jonathan Bering & Daniel Damsgaard Kehlet

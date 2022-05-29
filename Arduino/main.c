@@ -34,6 +34,8 @@ int main(void)
 	char debugString[20];
 	// ========================================= //
 	
+	///-main_init_start
+	
 	// Initialize UART0 (Baud Rate = 9600, 8 Databits, No Parity)
 	InitUART(UART0, 9600, 8,'A');
 	SendString(UART0, "UART Initialized\r\n");
@@ -70,12 +72,13 @@ int main(void)
 			SendString(UART0,"Datalog.txt er oprettet!\r\n");
 		}
 	}
+ ///-main_init_stop
  
+ ///-while_start
   while(1) 
   {
 	
 	while(readButtonState(7) != 0){ // Check if Pin 13 (= 7th Pin in PINB) is set
-		//SendString(UART0, "Button Pressed\r\n");
 			  								
 	    BAC = BacLevel();														// Get the current BAC Level
 		
@@ -146,8 +149,6 @@ int main(void)
 		newMeasurement = false;
 				
 		// ============= FOR DEBUGGING ============= //
-		SendString(UART0, "Displaying new measurement\r\n");
-		
 		memset(debugMsg,'0', strlen(debugMsg));
 		memset(debugString,'0', strlen(debugString));
 	
@@ -157,5 +158,6 @@ int main(void)
 		// ========================================= //
 		
 	}
-  } 
+  }
+  ///-while_stop 
 }

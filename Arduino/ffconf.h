@@ -68,7 +68,6 @@
 / Locale and Namespace Configurations
 /---------------------------------------------------------------------------*/
 
-// Henning Hargaard: Changed from 932
 #define FF_CODE_PAGE	437
 /* This option specifies the OEM code page to be used on the target system.
 /  Incorrect code page setting can cause a file open failure.
@@ -235,11 +234,11 @@
 /  Note that enabling exFAT discards ANSI C (C89) compatibility. */
 
 
-// Henning Hargaard: Changed from 0
+// Changed from 0
 #define FF_FS_NORTC		1
-#define FF_NORTC_MON	3
-#define FF_NORTC_MDAY	15
-#define FF_NORTC_YEAR	2021
+#define FF_NORTC_MON	05
+#define FF_NORTC_MDAY	29
+#define FF_NORTC_YEAR	2022
 /* The option FF_FS_NORTC switches timestamp functiton. If the system does not have
 /  any RTC function or valid timestamp is not needed, set FF_FS_NORTC = 1 to disable
 /  the timestamp function. Every object modified by FatFs will have a fixed timestamp

@@ -10,8 +10,7 @@
 #include "ff.h"			/* Obtains integer types */
 #include "diskio.h"		/* Declarations of disk functions */
 
-#include "SDdriver.h"  //Henning Hargaard 15/3 2021
-
+#include "SDdriver.h"
 /* Definitions of physical drive number for each drive */
 //#define DEV_RAM		0	/* Example: Map Ramdisk to physical drive 0 */
 //#define DEV_MMC		1	/* Example: Map MMC/SD card to physical drive 1 */
@@ -40,7 +39,7 @@ BYTE pdrv				/* Physical drive nmuber to identify the drive */
 
 	result = SD_init();
 	
-	if (result) 
+	if (result)											// Check for errors	
 	{
 		return RES_ERROR;	
 	} 
@@ -65,10 +64,10 @@ UINT count		/* Number of sectors to read */
 	//		result = MMC_disk_read(buff, sector, count);
 	for (unsigned long i = 0; i < count; i++)
 	{
-		result = SD_readSingleBlock(sector+i, buff);
-		buff += 512;
+		result = SD_readSingleBlock(sector+i, buff);	// Read block #i
+		buff += 512;									// Move to next block
 		
-		if (result != 0){
+		if (result != 0){								// Check for errors
 			return RES_ERROR;	
 		}		
 	}
@@ -91,10 +90,10 @@ UINT count			/* Number of sectors to write */
 	//   	result = MMC_disk_write(buff, sector, count);
 	for (unsigned long i = 0; i<count; i++)
 	{
-		result = SD_writeSingleBlock(sector+i, buff);
-		buff += 512;
+		result = SD_writeSingleBlock(sector+i, buff);	// Write to block #i
+		buff += 512;									// Move to next block
 		
-		if (result != 0) {
+		if (result != 0) {								// Check for errors
 			return RES_ERROR;
 		}
 	}

@@ -19,6 +19,7 @@ void SPI_init(void)
 	SPI_DDR |= 1 << MOSI_BIT;
 	SPI_DDR &= ~(1 << MISO_BIT);
 	SPI_DDR |= 1 << SCK_BIT;
+	
 	//Setup SPI: Enable, Master mode, MSB first, SCK phase low, SCK idle low, f = fosc/64 = 16 MHz/64 = 250 kHz
 	SPCR = 0b01010010;
 	SPSR = 0;
@@ -26,13 +27,14 @@ void SPI_init(void)
 
 void SPI_transmit(unsigned char data)
 {
-unsigned char dummy;
+	unsigned char dummy;
 	
 	// Start transmission
 	SPDR = data;
+	
 	// Wait for transmission complete
-	while(!(SPSR & (1<<SPIF)))
-	{}
+	while(!(SPSR & (1<<SPIF))){}
+		
     // Clear flag 		
 	dummy = SPDR;
 }

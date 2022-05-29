@@ -1,5 +1,5 @@
 /*
- * CFile1.c
+ * Breathalyzer.c
  *
  * Created: 04-05-2022 20:55:46
  * Authors : Jonathan Bering & Daniel Damsgaard Kehlet
@@ -16,9 +16,7 @@ float rs_gas;
 float R0 = 1620; // Measurement made in capture.txt
 float ratio;
 float R2 = 1000;
-//int adcResolution = 4095;
 int adcResolution = 1023;
-//float voltageRef = 3.3;
 float voltageRef = 5;
 double BAC;
 
@@ -48,27 +46,20 @@ void checkR0Value()
 	R0 = rs_gas / 60;
 }
 
+///-bac_start
 float BacLevel(){
 	// Get ADC Value
 	sensorValue = ADCW;
 		
 	// Recalculate into BAC
-	sensor_volt = (float)sensorValue/adcResolution*voltageRef; //Voltage range = 3.3V da det er fra vores controller board, Resolution = 1023
+	sensor_volt = (float)sensorValue/adcResolution*voltageRef; //Voltage range = 5V from Mega2560, Resolution = 1023
 	
-	// === FOR DEBUGGING === //
-	/*char debugMsg[50];
-	char debugString[20];
-	
-	dtostrf(sensor_volt, 3, 3, debugString);
-	sprintf(debugMsg, "Sensor Volt is %6s\r\n", debugString);
-	SendString(UART0, debugMsg);*/
-	// ===================== //
-	
-	rs_gas = ((5.0*R2)/sensor_volt) - R2; //5V da det er på sensor boardet
+	rs_gas = ((voltageRef*R2)/sensor_volt) - R2;
 	ratio = rs_gas/R0;
 	double x = 0.4*ratio;
-	BAC = pow(x,-1.431); // g/ml
-	BAC *= 10; // g/L
+	BAC = pow(x,-1.431); // mg/L
+	BAC *= 10; 
 
 	return BAC;
 }
+///-bac_stop
