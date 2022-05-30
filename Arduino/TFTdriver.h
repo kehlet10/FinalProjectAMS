@@ -36,7 +36,7 @@ void DisplayOff();
 void DisplayOn();
 void SleepOut();
 void MemoryAccessControl(unsigned char parameter);
-void InterfacePixelFormat(unsigned char parameter);
+void InterfacePixelFormatl (unsigned char parameter);
 void WritePixel(unsigned char Red, unsigned char Blue, unsigned char Green);
 void SetColumnAddress(unsigned int Start, unsigned int End);
 void SetPageAddress(unsigned int Start, unsigned int End);
@@ -55,6 +55,5 @@ void WriteDot(unsigned int X_pos, unsigned int Y_pos, unsigned int Colour);
 void WriteNumber(unsigned int X_pos, unsigned int Y_pos, unsigned int Colour, int NumberToWrite);
 void WriteLetter(unsigned int X_pos, unsigned int Y_pos, unsigned int Colour, char LetterToWrite);
 void WriteNumberFromADC(unsigned int X_Position,unsigned int Y_Position, unsigned int Colour, float num);
-void WriteSentence(unsigned int X_position, unsigned int Y_position, unsigned int Colour, unsigned char* sentenceToWrite);
 
 #endif

@@ -28,14 +28,8 @@
 #define RST_PORT PORTG
 #define RST_BIT 0
 
-
-
 //Colour management
 unsigned int Background_Colour;
-unsigned char pixelA;
-unsigned char pixelB;
-unsigned char pixelC;
-unsigned char pixelD;
 
 unsigned char R, G, B;
 unsigned char R_back, G_back, B_back;
@@ -57,12 +51,6 @@ unsigned char R_back, G_back, B_back;
 #define Lavenderblush_Out WritePixel(255,240,245);
 #define Beige_Out         WritePixel(207,185,151);
 
-unsigned char DoneOne   = 1;
-unsigned char DoneTwo   = 1;
-unsigned char DoneThree = 1;
-unsigned char DoneFour  = 1;
-
-unsigned char  ValidThree = 0, ValidTwo = 0, ValidOne = 0, ValidZero = 0;
 
 // ILI 9341 data sheet, page 238
 void WriteCommand(unsigned char command)
@@ -70,7 +58,7 @@ void WriteCommand(unsigned char command)
 	
 	DATA_PORT_LOW = command; //Data s?ttes
 	
-	DC_PORT &= ~(1<<DC_BIT); //DC port er 1 nu s?tter vi den lavt - And inverteret
+	DC_PORT &= ~(1<<DC_BIT); //Her sættes DC port til 0
 	
 	CS_PORT &= ~(1 << CS_BIT); //CSX s?ttes lavt
 	
@@ -90,7 +78,7 @@ void WriteData(unsigned int data)
 	DATA_PORT_HIGH =  data >> 8;
 	DATA_PORT_LOW = data; //Data s?ttes
 	
-	DC_PORT |= (1<< DC_BIT); //DC port er 1 nu s?tter vi den lavt - And inverteret
+	DC_PORT |= (1<< DC_BIT); //Her sættes DC port til 1 
 	
 	CS_PORT &= ~(1 << CS_BIT); //CSX s?ttes lavt
 	WR_PORT &= ~(1 << WR_BIT); //WRX s?ttes lavt
@@ -129,9 +117,9 @@ void DisplayInit(unsigned char colourBackground, unsigned char colourText)
 
 	DisplayOn();
 	
+	MemoryAccessControl(0b00001000); //Sets BGR bit high
 	
-	MemoryAccessControl(0b00001000);
-	InterfacePixelFormat(0b00000101);
+	InterfacePixelFormat(0b00000101); //16 bits pr. pixel
 	
 	ClearScreen(colourBackground);
 	
@@ -178,8 +166,8 @@ void SleepOut()
 
 void MemoryAccessControl(unsigned char parameter)
 {
-	WriteCommand(0x36);
-	WriteData(parameter);
+	WriteCommand(0x36); //memory access
+	WriteData(parameter); //sets BGR bit
 }
 
 void InterfacePixelFormat(unsigned char parameter)
@@ -190,8 +178,7 @@ void InterfacePixelFormat(unsigned char parameter)
 
 void MemoryWrite()
 {
-	WriteCommand(0x2C);
-	
+	WriteCommand(0x2C); //Transfers data from MicroController unit to frame memory. When command is accepted resets positions to setPageAdress and setColumnAddress positions
 }
 
 // Red 0-31, Green 0-63, Blue 0-31
@@ -210,20 +197,20 @@ void WritePixel(unsigned char Red, unsigned char Green, unsigned char Blue)
 void SetColumnAddress(unsigned int Start, unsigned int End)
 {
 	WriteCommand(0x2A);
-	WriteData(Start >> 8);
-	WriteData(Start);
-	WriteData(End >> 8);
-	WriteData(End);
+	WriteData(Start >> 8);	//SC[15:8]
+	WriteData(Start);		//SC[7:0}
+	WriteData(End >> 8);	//EC[15:8]
+	WriteData(End);			//EC[7:0]
 }
 
 // Set Page Address (0-319), Start > End
 void SetPageAddress(unsigned int Start, unsigned int End)
 {
 	WriteCommand(0x2B);
-	WriteData(Start >> 8);
-	WriteData(Start);
-	WriteData(End >> 8);
-	WriteData(End);
+	WriteData(Start >> 8);	//SC[15:8]
+	WriteData(Start);		//SC[7:0}
+	WriteData(End >> 8);	//EC[15:8]
+	WriteData(End);			//EC[7:0]
 	
 }
 
@@ -361,7 +348,6 @@ unsigned int ClearScreen(unsigned char colour)
 	
 	SetColumnAddress(0, 239);
 	SetPageAddress(0, 319);
-
 	WriteCommand(0x2C); //Write Memory Start
 
 	switch (colour)  {
@@ -711,10 +697,10 @@ void WriteLetter(unsigned int X_pos, unsigned int Y_pos, unsigned int Colour, ch
 	static unsigned int i=1;
 	static unsigned int jj=0;
 	unsigned int LetterIndex = AsciiToFontIndex(LetterToWrite);
+	
 	// === FOR DEBUGGING === //
 	char debugMsg[50];
 	static unsigned char numberstring[6];
-	
 	dtostrf(LetterIndex, 3, 3, numberstring);     // Converts input unsigned long integer number to a string
 	sprintf(debugMsg, "WriteLetter is %6s\r\n", numberstring);
 	SendString(UART0, debugMsg );
@@ -731,7 +717,6 @@ void WriteLetter(unsigned int X_pos, unsigned int Y_pos, unsigned int Colour, ch
 				dataout = Letter_Font[jj] &i;
 				if (dataout >=1)
 				{
-					//Number zero
 					WritePixel(R,G,B);
 				}
 				else
@@ -752,11 +737,9 @@ void WriteLetter(unsigned int X_pos, unsigned int Y_pos, unsigned int Colour, ch
 		for (jj=Letter_Font_Length_Bytes*(LetterIndex-1); jj<(Letter_Font_Length_Bytes*LetterIndex)-1; jj++)
 		{
 			for (x = 0; x < 8; x++){
-
-				//dataout = Number_Font[jj] &i;
+				
 				dataout = (Letter_Font[jj] & i);
 				
-
 				if (dataout >=1){
 					//Rest
 					WritePixel(R,G,B);
